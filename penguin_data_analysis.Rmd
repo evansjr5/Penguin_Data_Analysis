@@ -1,0 +1,14 @@
+
+
+```{r}
+# open file holding penguin data
+penguins_lter = read.csv("penguins_lter.csv")
+```
+
+
+```{r}
+penguins_lter<-na.omit(penguins_lter[,2:16])
+```
+
+
+
