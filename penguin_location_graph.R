@@ -2,6 +2,7 @@
 # Plots the location of the penguins
 
 # Packages
+"""
 library(ggplot2)
 library(dbplyr)
 library(tibble)
@@ -11,7 +12,7 @@ library(ggthemes)
 library(randomForest)
 library(datasets)
 library(caret)
-
+"""
 antarctica <- map_data("world", region = "Antarctica")
 
 df_penguinloc <-
@@ -39,7 +40,7 @@ ggplot(antarctica, aes(long, lat, group = group)) +
     alpha =.7)+
   scale_color_manual(values = c("#53868B", "#c02728", "#1874CD"))+
   labs(title = "Penguins in Palmer Archipelago",
-       subtitle = "Recorded penguins in 2009 and their nesting Islands") +
+       subtitle = "") +
   theme_map() +
   theme(legend.position = "none",
         plot.title = element_text(hjust = 0.5, size = 20),
