@@ -61,3 +61,5 @@ test <- data[ind==2,]
 rf <- randomForest(Species~., data=train, proximity=TRUE)
 
 print(rf)
+
+

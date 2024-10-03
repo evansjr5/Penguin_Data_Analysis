@@ -11,4 +11,5 @@ pacman::p_load(tidyverse,
                ggthemes,
                randomForest,
                datasets,
-               caret)
+               caret,
+               DataExplorer)
