@@ -2,3 +2,4 @@
 *iter.csv
 .Rhistory
 .RData
+*.DS*
