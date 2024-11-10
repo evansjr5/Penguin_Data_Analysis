@@ -1,18 +1,7 @@
 ### File: penguin_location_grpah.R
 # Plots the location of the penguins
 
-# Packages
-"""
-library(ggplot2)
-library(dbplyr)
-library(tibble)
-library(tidyverse)
-library(ggrepel)
-library(ggthemes)
-library(randomForest)
-library(datasets)
-library(caret)
-"""
+
 antarctica <- map_data("world", region = "Antarctica")
 
 df_penguinloc <-
@@ -47,19 +36,5 @@ ggplot(antarctica, aes(long, lat, group = group)) +
         plot.subtitle =  element_text(hjust = 0.5),
         plot.background = element_rect(fill="#f9f9f9", color = "#f9f9f9"))
 
-
-data<-na.omit(penguins_lter[,2:16])
-table(data$Species)
-str(data)
-
-set.seed(222)
-ind <- sample(2, nrow(data), replace = TRUE, prob = c(0.7, 0.3))
-train <- data[ind==1,]
-test <- data[ind==2,]
-
-
-rf <- randomForest(Species~., data=train, proximity=TRUE)
-
-print(rf)
 
 

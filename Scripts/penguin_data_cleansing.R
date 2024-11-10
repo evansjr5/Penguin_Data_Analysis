@@ -1,69 +1,47 @@
-### File: penguin_data_cleaning
-## Description: 
+#### File: penguin_data_cleaning.R ####
+### Description: 
+## This file produces clean penguin data by removing NAs and empty strings present in some variables
 
-penguins_lter = read.csv("penguins_lter.csv")
+# Display Missing data
 plot_missing(penguins_lter)
-vis_miss(penguins_lter)
-# Subset of data that does not contain comments
-penguins_lter_data = subset(penguins_lter, select = c(Species:Delta.13.C..o.oo.))
+ggsave("plots/individual_plots/missing_data_plot.png")
 
-# Visualize the missing data in easch column
-vis_miss(penguins_lter_data)
-plot_missing(penguins_lter_data)
-
-# Clean data by removing rows with NA
-clean_penguin <- penguins_lter_data %>%
-  drop_na()
-
-# Visualize data after removing NAs
-vis_miss(clean_data)
-plot_missing(clean_data)
-summary(penguins_lter_data)
-
-
-hist(penguins_lter_data$Body.Mass..g.)
-hist(penguins_lter_data$Delta.13.C..o.oo.)
-hist(penguins_lter_data$Delta.15.N..o.oo.)
-
-plot_bar(clean_data)
-plot_histogram(clean_data)
-plot_correlation(clean_data)
-
-## Scatterplot `price` with all other continuous features
-plot_scatterplot(split_columns(clean_data)$continuous, by = "Culmen.Length..mm.", sampled_rows = 1000L)
-
-ggplot(clean_data, aes(x=Body.Mass..g., y=Culmen.Depth..mm.,color = Species, shape = Island)) + 
-  geom_point() +
-  theme_classic() +
-  xlab("Body Mass (g)") +
-  ylab("Culmen Depth (mm)")
-ggsave(filename = "Depth.v.Bodymass_Species.png",dpi = 600)
-
-aov_res = aov(data = clean_data,formula = Culmen.Depth..mm. ~ Body.Mass..g.)
-
-model = lm(clean_data$Culmen.Depth..mm. ~ clean_data$Culmen.Length..mm.)
-
-ggplot(data = clean_data, aes(x = , y = Culmen.Depth..mm.)) +
-  geom_point() +
-  geom_smooth(method = "lm") +
-  annotate("text",label = paste("R2 = ", round(summary(model)$r.squared, 2), "\n", 
-                                                   "p = ", round(summary(model)$coefficients[8], 4)))
-help(cor)
-
-
-for( i in penguins_lter_data$Individual.ID) {
-  len = str_length(i)
-  ss = substring(i,len)
-  if (ss == 1) {
-    penguins_lter_data$Sex == "Male"
-    }
-}
-
-
-# Assuming your DataFrame is named df
-filtered_df <- clean_penguin %>%
+# Subset of data that does not contain comments, NAs, or empty strings
+clean_penguin <- penguins_lter %>%
+  subset(select = c(Species:Delta.13.C..o.oo.)) %>%
+  drop_na() %>%
   filter(Sex %in% c("MALE", "FEMALE") & Sex != "")
 
-write_csv(filtered_df,"clean_penguin_data.csv")
+# Visualize data after Filters
+plot_missing(clean_penguin)
+ggsave("plots/individual_plots/missing_data_after_filter_plot.png")
+# Summary
+capture.output(summary(clean_penguin), file = "plots/individual_plots/summary_clean_penguin.txt")
 
+# Write clean data to a CSV file
+write_csv(clean_penguin,"clean_penguin_data.csv")
 
+# Basic exploratory data analysis plots
+png("plots/individual_plots/body_mass_histogram.png")
+hist(clean_penguin$Body.Mass..g., main = "Body Mass Distribution", xlab = "Body Mass (g)")
+dev.off()
+
+png("plots/individual_plots/delta_13_C_histogram.png")
+hist(clean_penguin$Delta.13.C..o.oo., main = "Delta 13 C Distribution", xlab = "Delta 13 C (o/oo)")
+dev.off()
+
+png("plots/individual_plots/delta_15_N_histogram.png")
+hist(clean_penguin$Delta.15.N..o.oo., main = "Delta 15 N Distribution", xlab = "Delta 15 N (o/oo)")
+dev.off()
+
+plot_bar(clean_penguin)
+ggsave("plots/individual_plots/bar_plot.png")
+
+plot_histogram(clean_penguin)
+ggsave("plots/individual_plots/histogram_plot.png")
+
+plot_correlation(clean_penguin)
+ggsave("plots/individual_plots/correlation_plot.png")
+
+plot_scatterplot(split_columns(clean_penguin)$continuous, by = "Culmen.Length..mm.", sampled_rows = 1000L)
+ggsave("plots/individual_plots/scatterplot_culmen_length.png")
