@@ -185,7 +185,7 @@ importance_df <- importance_df[order(importance_df$Importance, decreasing = TRUE
 
 importance_df$Predictor <- recode(
   importance_df$Predictor,
-  "Sex" = "Gender",
+  "Sex" = "Sex",
   "Body.Mass..g." = "Body Mass (g)",
   "Culmen.Length..mm." = "Culmen Length (mm)",
   "Culmen.Depth..mm." = "Culmen Depth (mm)",
@@ -222,7 +222,7 @@ residuals_plot_15N <- ggplot(
     color = Species
     )
   ) +
-  geom_point(size = 1) +
+  geom_point(size = 2, alpha = 0.8) +
   geom_hline(yintercept = 0, linetype = "dashed") +
   labs(
     x = "Fitted Values",
@@ -247,7 +247,7 @@ pred_obs_plot_15N <- ggplot(
     color = Species
     )
   ) +
-  geom_point(size=2) +
+  geom_point(size = 4, alpha = 0.8) +
   geom_abline(
     slope = 1,
     intercept = 0,
@@ -264,11 +264,19 @@ pred_obs_plot_15N <- ggplot(
     labels = c('Adelie','Chinstrap','Gentoo')
     ) +
   theme_bw() +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(    
+    legend.position = "right",
+    legend.key.size = unit(5, "cm"), #change legend key size
+    legend.key.height = unit(1, 'cm'), #change legend key height
+    legend.key.width = unit(1, 'cm'), #change legend key width
+    legend.title = element_text(size=14), #change legend title font size
+    legend.text = element_text(size=15) #change legend text font size
+  )
 
 # inlay plots
 inlayed_plot_15N <- ggdraw(pred_obs_plot_15N) +
-  draw_plot(residuals_plot_15N, x = 0.45, y = 0.07, width = 0.44, height = 0.23)
+  draw_plot(residuals_plot_15N, x = 0.41, y = 0.07, width = 0.44, height = 0.23)
 
 ##                    ##
 #### Save the plots ####

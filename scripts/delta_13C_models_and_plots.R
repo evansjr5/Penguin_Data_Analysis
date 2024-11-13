@@ -237,7 +237,7 @@ residuals_plot_13C <- ggplot(
     color = Species
     )
   ) +
-  geom_point(size = 1) +
+  geom_point(size = 2, alpha = 0.8) +
   geom_hline(
     yintercept = 0,
     linetype = "dashed"
@@ -266,7 +266,7 @@ pred_obs_plot_13C <- ggplot(
     color = Species
     )
   ) +
-  geom_point(size=2) +
+  geom_point(size = 4, alpha = 0.8) +
   geom_abline(
     slope = 1,
     intercept = 0,
@@ -281,7 +281,15 @@ pred_obs_plot_13C <- ggplot(
     labels = c('Adelie','Chinstrap','Gentoo')
   ) +
   theme_bw() +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(    
+    legend.position = "right",
+    legend.key.size = unit(3, "cm"), #change legend key size
+    legend.key.height = unit(1, 'cm'), #change legend key height
+    legend.key.width = unit(1, 'cm'), #change legend key width
+    legend.title = element_text(size=14), #change legend title font size
+    legend.text = element_text(size=15) #change legend text font size
+    )
 
 # Combine the two plots
 inlayed_plot_13C <- ggdraw(pred_obs_plot_13C) +
